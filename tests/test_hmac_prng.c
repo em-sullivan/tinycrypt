@@ -47,29 +47,29 @@
 #include <stdio.h>
 
 struct hmac_prng_test_vector {
-	uint8_t entropyinputlen;
-	uint8_t noncelen;
-	uint8_t personalizationstringlen;
-	uint8_t additionalinputlen;
-	uint8_t returnedbitslen;
-	uint8_t entropyinput[32];
-	uint8_t nonce[16];
-	uint8_t personalizationstring[32];
-	uint8_t entropyinputreseed[32];
-	uint8_t additionalinputreseed[32];
-	uint8_t returnedbits[128];
+	uint_least8_t entropyinputlen;
+	uint_least8_t noncelen;
+	uint_least8_t personalizationstringlen;
+	uint_least8_t additionalinputlen;
+	uint_least8_t returnedbitslen;
+	uint_least8_t entropyinput[32];
+	uint_least8_t nonce[16];
+	uint_least8_t personalizationstring[32];
+	uint_least8_t entropyinputreseed[32];
+	uint_least8_t additionalinputreseed[32];
+	uint_least8_t returnedbits[128];
 };
 
 unsigned int do_hmac_prng_pr_false_test(unsigned int testnum, const struct
 					hmac_prng_test_vector *vec)
 {
 	struct tc_hmac_prng_struct h;
-	uint8_t random[128];
+	uint_least8_t random[128];
 	uint32_t seed_material_size;
-	uint8_t seed_material[32 + 16 + 32]; /*entropyinput || nonce || personalizationstring */
+	uint_least8_t seed_material[32 + 16 + 32]; /*entropyinput || nonce || personalizationstring */
 	unsigned int result = TC_PASS;
 
-	uint8_t *p = seed_material;
+	uint_least8_t *p = seed_material;
 
 	memset(&h, 0x0, sizeof(h));
 

@@ -34,10 +34,10 @@
 #include <tinycrypt/constants.h>
 #include <tinycrypt/utils.h>
 
-static void rekey(uint8_t *key, const uint8_t *new_key, unsigned int key_size)
+static void rekey(uint_least8_t *key, const uint_least8_t *new_key, unsigned int key_size)
 {
-	const uint8_t inner_pad = (uint8_t) 0x36;
-	const uint8_t outer_pad = (uint8_t) 0x5c;
+	const uint_least8_t inner_pad = (uint_least8_t) 0x36;
+	const uint_least8_t outer_pad = (uint_least8_t) 0x5c;
 	unsigned int i;
 
 	for (i = 0; i < key_size; ++i) {
@@ -49,17 +49,17 @@ static void rekey(uint8_t *key, const uint8_t *new_key, unsigned int key_size)
 	}
 }
 
-int tc_hmac_set_key(TCHmacState_t ctx, const uint8_t *key,
+int tc_hmac_set_key(TCHmacState_t ctx, const uint_least8_t *key,
 		    unsigned int key_size)
 {
 	/* Input sanity check */
 	if (ctx == (TCHmacState_t) 0 ||
-	    key == (const uint8_t *) 0 ||
+	    key == (const uint_least8_t *) 0 ||
 	    key_size == 0) {
 		return TC_CRYPTO_FAIL;
 	}
 
-	const uint8_t dummy_key[TC_SHA256_BLOCK_SIZE];
+	const uint_least8_t dummy_key[TC_SHA256_BLOCK_SIZE];
 	struct tc_hmac_state_struct dummy_state;
 
 	if (key_size <= TC_SHA256_BLOCK_SIZE) {
@@ -121,11 +121,11 @@ int tc_hmac_update(TCHmacState_t ctx,
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_hmac_final(uint8_t *tag, unsigned int taglen, TCHmacState_t ctx)
+int tc_hmac_final(uint_least8_t *tag, unsigned int taglen, TCHmacState_t ctx)
 {
 
 	/* input sanity check: */
-	if (tag == (uint8_t *) 0 ||
+	if (tag == (uint_least8_t *) 0 ||
 	    taglen != TC_SHA256_DIGEST_SIZE ||
 	    ctx == (TCHmacState_t) 0) {
 		return TC_CRYPTO_FAIL;

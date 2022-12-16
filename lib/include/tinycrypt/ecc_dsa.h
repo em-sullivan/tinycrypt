@@ -102,16 +102,16 @@ extern "C" {
  * @note side-channel countermeasure: algorithm strengthened against timing
  * attack.
  */
-int uECC_sign(const uint8_t *p_private_key, const uint8_t *p_message_hash,
-	      unsigned p_hash_size, uint8_t *p_signature, uECC_Curve curve);
+int uECC_sign(const uint_least8_t *p_private_key, const uint_least8_t *p_message_hash,
+	      unsigned p_hash_size, uint_least8_t *p_signature, uECC_Curve curve);
 
 #ifdef ENABLE_TESTS
 /*
  * THIS FUNCTION SHOULD BE CALLED FOR TEST PURPOSES ONLY.
  * Refer to uECC_sign() function for real applications.
  */
-int uECC_sign_with_k(const uint8_t *private_key, const uint8_t *message_hash,
-		     unsigned int hash_size, uECC_word_t *k, uint8_t *signature,
+int uECC_sign_with_k(const uint_least8_t *private_key, const uint_least8_t *message_hash,
+		     unsigned int hash_size, uECC_word_t *k, uint_least8_t *signature,
 		     uECC_Curve curve);
 #endif
 
@@ -129,8 +129,8 @@ int uECC_sign_with_k(const uint8_t *private_key, const uint8_t *message_hash,
  * signer and pass it to this function along with the signer's public key and
  * the signature values (hash_size and signature).
  */
-int uECC_verify(const uint8_t *p_public_key, const uint8_t *p_message_hash,
-		unsigned int p_hash_size, const uint8_t *p_signature, uECC_Curve curve);
+int uECC_verify(const uint_least8_t *p_public_key, const uint_least8_t *p_message_hash,
+		unsigned int p_hash_size, const uint_least8_t *p_signature, uECC_Curve curve);
 
 #ifdef __cplusplus
 }

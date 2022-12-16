@@ -50,7 +50,7 @@
  *  @param arr IN/OUT -- array to be incremented
  *  @param len IN -- size of arr in bytes
  */
-static void arrInc(uint8_t arr[], unsigned int len)
+static void arrInc(uint_least8_t arr[], unsigned int len)
 {
 	unsigned int i;
 	if (0 != arr) {
@@ -71,17 +71,17 @@ static void arrInc(uint8_t arr[], unsigned int len)
  *  @param ctx IN/OUT -- CTR PRNG state
  *  @param providedData IN -- data used when updating the internal state
  */
-static void tc_ctr_prng_update(TCCtrPrng_t * const ctx, uint8_t const * const providedData)
+static void tc_ctr_prng_update(TCCtrPrng_t * const ctx, uint_least8_t const * const providedData)
 {
 	if (0 != ctx) {
 		/* 10.2.1.2 step 1 */
-		uint8_t temp[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE];
+		uint_least8_t temp[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE];
 		unsigned int len = 0U;
 
 		/* 10.2.1.2 step 2 */
 		while (len < sizeof temp) {
 			unsigned int blocklen = sizeof(temp) - len;
-			uint8_t output_block[TC_AES_BLOCK_SIZE];
+			uint_least8_t output_block[TC_AES_BLOCK_SIZE];
 
 			/* 10.2.1.2 step 2.1 */
 			arrInc(ctx->V, sizeof ctx->V);
@@ -115,16 +115,16 @@ static void tc_ctr_prng_update(TCCtrPrng_t * const ctx, uint8_t const * const pr
 }
 
 int tc_ctr_prng_init(TCCtrPrng_t * const ctx, 
-		     uint8_t const * const entropy,
+		     uint_least8_t const * const entropy,
 		     unsigned int entropyLen, 
-		     uint8_t const * const personalization,
+		     uint_least8_t const * const personalization,
 		     unsigned int pLen)
 {
 	int result = TC_CRYPTO_FAIL;	
 	unsigned int i;
-	uint8_t personalization_buf[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE] = {0U};
-	uint8_t seed_material[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE];
-	uint8_t zeroArr[TC_AES_BLOCK_SIZE] = {0U};
+	uint_least8_t personalization_buf[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE] = {0U};
+	uint_least8_t seed_material[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE];
+	uint_least8_t zeroArr[TC_AES_BLOCK_SIZE] = {0U};
   
 	if (0 != personalization) {
 		/* 10.2.1.3.1 step 1 */
@@ -162,15 +162,15 @@ int tc_ctr_prng_init(TCCtrPrng_t * const ctx,
 }
 
 int tc_ctr_prng_reseed(TCCtrPrng_t * const ctx, 
-			uint8_t const * const entropy,
+			uint_least8_t const * const entropy,
 			unsigned int entropyLen,
-			uint8_t const * const additional_input,
+			uint_least8_t const * const additional_input,
 			unsigned int additionallen)
 {
 	unsigned int i;
 	int result = TC_CRYPTO_FAIL;
-	uint8_t additional_input_buf[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE] = {0U};
-	uint8_t seed_material[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE];
+	uint_least8_t additional_input_buf[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE] = {0U};
+	uint_least8_t seed_material[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE];
 
 	if (0 != additional_input) {
 		/* 10.2.1.4.1 step 1 */
@@ -203,9 +203,9 @@ int tc_ctr_prng_reseed(TCCtrPrng_t * const ctx,
 }
 
 int tc_ctr_prng_generate(TCCtrPrng_t * const ctx,
-			uint8_t const * const additional_input,
+			uint_least8_t const * const additional_input,
 			unsigned int additionallen,
-			uint8_t * const out,
+			uint_least8_t * const out,
 			unsigned int outlen)
 {
 	/* 2^48 - see section 10.2.1 */
@@ -221,7 +221,7 @@ int tc_ctr_prng_generate(TCCtrPrng_t * const ctx,
 		if (ctx->reseedCount > MAX_REQS_BEFORE_RESEED) {
 			result = TC_CTR_PRNG_RESEED_REQ;
 		} else {
-			uint8_t additional_input_buf[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE] = {0U};
+			uint_least8_t additional_input_buf[TC_AES_KEY_SIZE + TC_AES_BLOCK_SIZE] = {0U};
 			if (0 != additional_input) {
 				/* 10.2.1.5.1 step 2  */
 				unsigned int len = additionallen;
@@ -238,7 +238,7 @@ int tc_ctr_prng_generate(TCCtrPrng_t * const ctx,
 			unsigned int len = 0U;      
 			while (len < outlen) {
 				unsigned int blocklen = outlen - len;
-				uint8_t output_block[TC_AES_BLOCK_SIZE];
+				uint_least8_t output_block[TC_AES_BLOCK_SIZE];
 
 				/* 10.2.1.5.1 step 4.1 */
 				arrInc(ctx->V, sizeof ctx->V);

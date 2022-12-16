@@ -73,7 +73,7 @@ struct tc_hmac_state_struct {
 	/* the internal state required by h */
 	struct tc_sha256_state_struct hash_state;
 	/* HMAC key schedule */
-	uint8_t key[2*TC_SHA256_BLOCK_SIZE];
+	uint_least8_t key[2*TC_SHA256_BLOCK_SIZE];
 };
 typedef struct tc_hmac_state_struct *TCHmacState_t;
 
@@ -89,7 +89,7 @@ typedef struct tc_hmac_state_struct *TCHmacState_t;
  * @param key IN -- the HMAC key to configure
  * @param key_size IN -- the HMAC key size
  */
-int tc_hmac_set_key(TCHmacState_t ctx, const uint8_t *key,
+int tc_hmac_set_key(TCHmacState_t ctx, const uint_least8_t *key,
 		    unsigned int key_size);
 
 /**
@@ -130,7 +130,7 @@ int tc_hmac_update(TCHmacState_t ctx, const void *data,
  *  @param taglen IN -- size of tag in bytes
  *  @param ctx IN/OUT -- the HMAC state for computing tag
  */
-int tc_hmac_final(uint8_t *tag, unsigned int taglen, TCHmacState_t ctx);
+int tc_hmac_final(uint_least8_t *tag, unsigned int taglen, TCHmacState_t ctx);
 
 #ifdef __cplusplus
 }

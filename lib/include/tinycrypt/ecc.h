@@ -86,10 +86,10 @@ extern "C" {
 #endif
 
 /* defining data types to store word and bit counts: */
-typedef int8_t wordcount_t;
+typedef int_least8_t wordcount_t;
 typedef int16_t bitcount_t;
 /* defining data type for comparison result: */
-typedef int8_t cmpresult_t;
+typedef int_least8_t cmpresult_t;
 /* defining data type to store ECC coordinate/point in 32bits words: */
 typedef unsigned int uECC_word_t;
 /* defining data type to store an ECC coordinate/point in 64bits words: */
@@ -222,7 +222,7 @@ int uECC_generate_random_int(uECC_word_t *random, const uECC_word_t *top,
  * POSIX-compliant system that supports /dev/random or /dev/urandom, you can
  * define uECC_POSIX to use the predefined RNG.
  */
-typedef int(*uECC_RNG_Function)(uint8_t *dest, unsigned int size);
+typedef int(*uECC_RNG_Function)(uint_least8_t *dest, unsigned int size);
 
 /*
  * @brief Set the function that will be used to generate random bytes. The RNG
@@ -263,8 +263,8 @@ int uECC_curve_public_key_size(uECC_Curve curve);
  * @param curve
  * @return Returns 1 if key was computed successfully, 0 if an error occurred.
  */
-int uECC_compute_public_key(const uint8_t *private_key,
-			    uint8_t *public_key, uECC_Curve curve);
+int uECC_compute_public_key(const uint_least8_t *private_key,
+			    uint_least8_t *public_key, uECC_Curve curve);
 
 /*
  * @brief Compute public-key.
@@ -518,7 +518,7 @@ int uECC_valid_point(const uECC_word_t *point, uECC_Curve curve);
  * time computing a shared secret or verifying a signature using an invalid
  * public key.
  */
-int uECC_valid_public_key(const uint8_t *public_key, uECC_Curve curve);
+int uECC_valid_public_key(const uint_least8_t *public_key, uECC_Curve curve);
 
  /*
   * @brief Converts an integer in uECC native format to big-endian bytes.
@@ -526,7 +526,7 @@ int uECC_valid_public_key(const uint8_t *public_key, uECC_Curve curve);
   * @param num_bytes IN -- number of bytes
   * @param native IN -- uECC native representation
   */
-void uECC_vli_nativeToBytes(uint8_t *bytes, int num_bytes,
+void uECC_vli_nativeToBytes(uint_least8_t *bytes, int num_bytes,
     			    const unsigned int *native);
 
 /*
@@ -535,7 +535,7 @@ void uECC_vli_nativeToBytes(uint8_t *bytes, int num_bytes,
  * @param bytes IN -- bytes representation
  * @param num_bytes IN -- number of bytes
  */
-void uECC_vli_bytesToNative(unsigned int *native, const uint8_t *bytes,
+void uECC_vli_bytesToNative(unsigned int *native, const uint_least8_t *bytes,
 			    int num_bytes);
 
 #ifdef __cplusplus

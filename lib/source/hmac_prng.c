@@ -75,10 +75,10 @@ static const unsigned int  MAX_OUT = (1 << 19);
 /*
  * Assumes: prng != NULL
  */
-static void update(TCHmacPrng_t prng, const uint8_t *data, unsigned int datalen, const uint8_t *additional_data, unsigned int additional_datalen)
+static void update(TCHmacPrng_t prng, const uint_least8_t *data, unsigned int datalen, const uint_least8_t *additional_data, unsigned int additional_datalen)
 {
-	const uint8_t separator0 = 0x00;
-	const uint8_t separator1 = 0x01;
+	const uint_least8_t separator0 = 0x00;
+	const uint_least8_t separator1 = 0x01;
 
 	/* configure the new prng key into the prng's instance of hmac */
 	tc_hmac_set_key(&prng->h, prng->key, sizeof(prng->key));
@@ -128,13 +128,13 @@ static void update(TCHmacPrng_t prng, const uint8_t *data, unsigned int datalen,
 }
 
 int tc_hmac_prng_init(TCHmacPrng_t prng,
-		      const uint8_t *personalization,
+		      const uint_least8_t *personalization,
 		      unsigned int plen)
 {
 
 	/* input sanity check: */
 	if (prng == (TCHmacPrng_t) 0 ||
-	    personalization == (uint8_t *) 0 ||
+	    personalization == (uint_least8_t *) 0 ||
 	    plen > MAX_PLEN) {
 		return TC_CRYPTO_FAIL;
 	}
@@ -152,21 +152,21 @@ int tc_hmac_prng_init(TCHmacPrng_t prng,
 }
 
 int tc_hmac_prng_reseed(TCHmacPrng_t prng,
-			const uint8_t *seed,
+			const uint_least8_t *seed,
 			unsigned int seedlen,
-			const uint8_t *additional_input,
+			const uint_least8_t *additional_input,
 			unsigned int additionallen)
 {
 
 	/* input sanity check: */
 	if (prng == (TCHmacPrng_t) 0 ||
-	    seed == (const uint8_t *) 0 ||
+	    seed == (const uint_least8_t *) 0 ||
 	    seedlen < MIN_SLEN ||
 	    seedlen > MAX_SLEN) {
 		return TC_CRYPTO_FAIL;
 	}
 
-	if (additional_input != (const uint8_t *) 0) {
+	if (additional_input != (const uint_least8_t *) 0) {
 		/*
 		 * Abort if additional_input is provided but has inappropriate
 		 * length
@@ -189,12 +189,12 @@ int tc_hmac_prng_reseed(TCHmacPrng_t prng,
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_hmac_prng_generate(uint8_t *out, unsigned int outlen, TCHmacPrng_t prng)
+int tc_hmac_prng_generate(uint_least8_t *out, unsigned int outlen, TCHmacPrng_t prng)
 {
 	unsigned int bufferlen;
 
 	/* input sanity check: */
-	if (out == (uint8_t *) 0 ||
+	if (out == (uint_least8_t *) 0 ||
 	    prng == (TCHmacPrng_t) 0 ||
 	    outlen == 0 ||
 	    outlen > MAX_OUT) {

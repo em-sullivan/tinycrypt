@@ -34,7 +34,7 @@
 #include <tinycrypt/constants.h>
 #include <tinycrypt/utils.h>
 
-static void compress(unsigned int *iv, const uint8_t *data);
+static void compress(unsigned int *iv, const uint_least8_t *data);
 
 int tc_sha256_init(TCSha256State_t s)
 {
@@ -49,7 +49,7 @@ int tc_sha256_init(TCSha256State_t s)
 	 * of the square roots of the first 8 primes: 2, 3, 5, 7, 11, 13, 17
 	 * and 19.
 	 */
-	_set((uint8_t *) s, 0x00, sizeof(*s));
+	_set((uint_least8_t *) s, 0x00, sizeof(*s));
 	s->iv[0] = 0x6a09e667;
 	s->iv[1] = 0xbb67ae85;
 	s->iv[2] = 0x3c6ef372;
@@ -62,7 +62,7 @@ int tc_sha256_init(TCSha256State_t s)
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_sha256_update(TCSha256State_t s, const uint8_t *data, size_t datalen)
+int tc_sha256_update(TCSha256State_t s, const uint_least8_t *data, size_t datalen)
 {
 	/* input sanity check: */
 	if (s == (TCSha256State_t) 0 ||
@@ -84,12 +84,12 @@ int tc_sha256_update(TCSha256State_t s, const uint8_t *data, size_t datalen)
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_sha256_final(uint8_t *digest, TCSha256State_t s)
+int tc_sha256_final(uint_least8_t *digest, TCSha256State_t s)
 {
 	unsigned int i;
 
 	/* input sanity check: */
-	if (digest == (uint8_t *) 0 ||
+	if (digest == (uint_least8_t *) 0 ||
 	    s == (TCSha256State_t) 0) {
 		return TC_CRYPTO_FAIL;
 	}
@@ -108,14 +108,14 @@ int tc_sha256_final(uint8_t *digest, TCSha256State_t s)
 	/* add the padding and the length in big-Endian format */
 	_set(s->leftover + s->leftover_offset, 0x00,
 	     sizeof(s->leftover) - 8 - s->leftover_offset);
-	s->leftover[sizeof(s->leftover) - 1] = (uint8_t)(s->bits_hashed);
-	s->leftover[sizeof(s->leftover) - 2] = (uint8_t)(s->bits_hashed >> 8);
-	s->leftover[sizeof(s->leftover) - 3] = (uint8_t)(s->bits_hashed >> 16);
-	s->leftover[sizeof(s->leftover) - 4] = (uint8_t)(s->bits_hashed >> 24);
-	s->leftover[sizeof(s->leftover) - 5] = (uint8_t)(s->bits_hashed >> 32);
-	s->leftover[sizeof(s->leftover) - 6] = (uint8_t)(s->bits_hashed >> 40);
-	s->leftover[sizeof(s->leftover) - 7] = (uint8_t)(s->bits_hashed >> 48);
-	s->leftover[sizeof(s->leftover) - 8] = (uint8_t)(s->bits_hashed >> 56);
+	s->leftover[sizeof(s->leftover) - 1] = (uint_least8_t)(s->bits_hashed);
+	s->leftover[sizeof(s->leftover) - 2] = (uint_least8_t)(s->bits_hashed >> 8);
+	s->leftover[sizeof(s->leftover) - 3] = (uint_least8_t)(s->bits_hashed >> 16);
+	s->leftover[sizeof(s->leftover) - 4] = (uint_least8_t)(s->bits_hashed >> 24);
+	s->leftover[sizeof(s->leftover) - 5] = (uint_least8_t)(s->bits_hashed >> 32);
+	s->leftover[sizeof(s->leftover) - 6] = (uint_least8_t)(s->bits_hashed >> 40);
+	s->leftover[sizeof(s->leftover) - 7] = (uint_least8_t)(s->bits_hashed >> 48);
+	s->leftover[sizeof(s->leftover) - 8] = (uint_least8_t)(s->bits_hashed >> 56);
 
 	/* hash the padding and length */
 	compress(s->iv, s->leftover);
@@ -123,10 +123,10 @@ int tc_sha256_final(uint8_t *digest, TCSha256State_t s)
 	/* copy the iv out to digest */
 	for (i = 0; i < TC_SHA256_STATE_BLOCKS; ++i) {
 		unsigned int t = *((unsigned int *) &s->iv[i]);
-		*digest++ = (uint8_t)(t >> 24);
-		*digest++ = (uint8_t)(t >> 16);
-		*digest++ = (uint8_t)(t >> 8);
-		*digest++ = (uint8_t)(t);
+		*digest++ = (uint_least8_t)(t >> 24);
+		*digest++ = (uint_least8_t)(t >> 16);
+		*digest++ = (uint_least8_t)(t >> 8);
+		*digest++ = (uint_least8_t)(t);
 	}
 
 	/* destroy the current state */
@@ -167,7 +167,7 @@ static inline unsigned int ROTR(unsigned int a, unsigned int n)
 #define Ch(a, b, c)(((a) & (b)) ^ ((~(a)) & (c)))
 #define Maj(a, b, c)(((a) & (b)) ^ ((a) & (c)) ^ ((b) & (c)))
 
-static inline unsigned int BigEndian(const uint8_t **c)
+static inline unsigned int BigEndian(const uint_least8_t **c)
 {
 	unsigned int n = 0;
 
@@ -178,7 +178,7 @@ static inline unsigned int BigEndian(const uint8_t **c)
 	return n;
 }
 
-static void compress(unsigned int *iv, const uint8_t *data)
+static void compress(unsigned int *iv, const uint_least8_t *data)
 {
 	unsigned int a, b, c, d, e, f, g, h;
 	unsigned int s0, s1;

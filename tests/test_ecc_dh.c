@@ -89,11 +89,11 @@ int ecdh_vectors(char **qx_vec, char **qy_vec, char **d_vec, char **z_vec,
 		string2scalar(exp_z, NUM_ECC_WORDS, z_vec[i]);
 	    	string2scalar(prv, NUM_ECC_WORDS, d_vec[i]);
 
-		uint8_t pub_bytes[2*NUM_ECC_BYTES];
+		uint_least8_t pub_bytes[2*NUM_ECC_BYTES];
 		uECC_vli_nativeToBytes(pub_bytes, 2*NUM_ECC_BYTES, pub);
-		uint8_t private_bytes[NUM_ECC_BYTES];
+		uint_least8_t private_bytes[NUM_ECC_BYTES];
 		uECC_vli_nativeToBytes(private_bytes, NUM_ECC_BYTES, prv);
-		uint8_t z_bytes[NUM_ECC_BYTES];
+		uint_least8_t z_bytes[NUM_ECC_BYTES];
 		uECC_vli_nativeToBytes(z_bytes, NUM_ECC_BYTES, exp_z);
 
 		rc = uECC_shared_secret(pub_bytes, private_bytes, z_bytes, curve);
@@ -309,7 +309,7 @@ int pkv_vectors(char **qx_vec, char **qy_vec, char **res_vec, int tests,
 {
 
 	unsigned int pub[2 * NUM_ECC_WORDS];
-	uint8_t _public[2 * NUM_ECC_BYTES];
+	uint_least8_t _public[2 * NUM_ECC_BYTES];
 	int rc;
 	int exp_rc;
 	char tmp;
@@ -414,12 +414,12 @@ int cavp_pkv(bool verbose)
 int montecarlo_ecdh(int num_tests, bool verbose) 
 {
 	int i;
-	uint8_t private1[NUM_ECC_BYTES] = {0};
-	uint8_t private2[NUM_ECC_BYTES] = {0};
-	uint8_t public1[2*NUM_ECC_BYTES] = {0};
-	uint8_t public2[2*NUM_ECC_BYTES] = {0};
-	uint8_t secret1[NUM_ECC_BYTES] = {0};
-	uint8_t secret2[NUM_ECC_BYTES] = {0};
+	uint_least8_t private1[NUM_ECC_BYTES] = {0};
+	uint_least8_t private2[NUM_ECC_BYTES] = {0};
+	uint_least8_t public1[2*NUM_ECC_BYTES] = {0};
+	uint_least8_t public2[2*NUM_ECC_BYTES] = {0};
+	uint_least8_t secret1[NUM_ECC_BYTES] = {0};
+	uint_least8_t secret2[NUM_ECC_BYTES] = {0};
         unsigned int result = TC_PASS;
 
 	const struct uECC_Curve_t * curve = uECC_secp256r1();

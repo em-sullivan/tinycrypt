@@ -71,7 +71,7 @@ extern "C" {
 struct tc_sha256_state_struct {
 	unsigned int iv[TC_SHA256_STATE_BLOCKS];
 	uint64_t bits_hashed;
-	uint8_t leftover[TC_SHA256_BLOCK_SIZE];
+	uint_least8_t leftover[TC_SHA256_BLOCK_SIZE];
 	size_t leftover_offset;
 };
 
@@ -102,7 +102,7 @@ int tc_sha256_init(TCSha256State_t s);
  *  @param data message to hash
  *  @param datalen length of message to hash
  */
-int tc_sha256_update (TCSha256State_t s, const uint8_t *data, size_t datalen);
+int tc_sha256_update (TCSha256State_t s, const uint_least8_t *data, size_t datalen);
 
 /**
  *  @brief SHA256 final procedure
@@ -120,7 +120,7 @@ int tc_sha256_update (TCSha256State_t s, const uint8_t *data, size_t datalen);
  *  @param digest unsigned eight bit integer
  *  @param Sha256 state struct
  */
-int tc_sha256_final(uint8_t *digest, TCSha256State_t s);
+int tc_sha256_final(uint_least8_t *digest, TCSha256State_t s);
 
 #ifdef __cplusplus
 }

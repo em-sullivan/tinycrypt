@@ -811,7 +811,7 @@ uECC_word_t EccPoint_compute_public_key(uECC_word_t *result,
 }
 
 /* Converts an integer in uECC native format to big-endian bytes. */
-void uECC_vli_nativeToBytes(uint8_t *bytes, int num_bytes,
+void uECC_vli_nativeToBytes(uint_least8_t *bytes, int num_bytes,
 			    const unsigned int *native)
 {
 	wordcount_t i;
@@ -822,7 +822,7 @@ void uECC_vli_nativeToBytes(uint8_t *bytes, int num_bytes,
 }
 
 /* Converts big-endian bytes to an integer in uECC native format. */
-void uECC_vli_bytesToNative(unsigned int *native, const uint8_t *bytes,
+void uECC_vli_bytesToNative(unsigned int *native, const uint_least8_t *bytes,
 			    int num_bytes)
 {
 	wordcount_t i;
@@ -846,7 +846,7 @@ int uECC_generate_random_int(uECC_word_t *random, const uECC_word_t *top,
 	}
 
 	for (tries = 0; tries < uECC_RNG_MAX_TRIES; ++tries) {
-		if (!g_rng_function((uint8_t *)random, num_words * uECC_WORD_SIZE)) {
+		if (!g_rng_function((uint_least8_t *)random, num_words * uECC_WORD_SIZE)) {
       			return 0;
     		}
 		random[num_words - 1] &=
@@ -887,7 +887,7 @@ int uECC_valid_point(const uECC_word_t *point, uECC_Curve curve)
 	return 0;
 }
 
-int uECC_valid_public_key(const uint8_t *public_key, uECC_Curve curve)
+int uECC_valid_public_key(const uint_least8_t *public_key, uECC_Curve curve)
 {
 
 	uECC_word_t _public[NUM_ECC_WORDS * 2];
@@ -905,7 +905,7 @@ int uECC_valid_public_key(const uint8_t *public_key, uECC_Curve curve)
 	return uECC_valid_point(_public, curve);
 }
 
-int uECC_compute_public_key(const uint8_t *private_key, uint8_t *public_key,
+int uECC_compute_public_key(const uint_least8_t *private_key, uint_least8_t *public_key,
 			    uECC_Curve curve)
 {
 

@@ -69,7 +69,7 @@
 
 int hex2int (char hex)
 {
-	uint8_t dec;
+	uint_least8_t dec;
 
 	if ('0' <= hex && hex <= '9') dec = hex - '0';
 	else if ('a' <= hex && hex <= 'f') dec = hex - 'a' + 10;
@@ -83,7 +83,7 @@ int hex2int (char hex)
  * Convert hex string to byte string
  * Return number of bytes written to buf, or 0 on error
  */
-int hex2bin(uint8_t *buf, const size_t buflen, const char *hex,
+int hex2bin(uint_least8_t *buf, const size_t buflen, const char *hex,
 	    const size_t hexlen)
 {
 
@@ -132,7 +132,7 @@ void string2scalar(unsigned int *scalar, unsigned int num_word32, char *str)
 {
 
 	unsigned int num_bytes = 4 * num_word32;
-	uint8_t tmp[num_bytes];
+	uint_least8_t tmp[num_bytes];
 	size_t hexlen = strlen(str);
 
 	int padding;
@@ -154,7 +154,7 @@ void string2scalar(unsigned int *scalar, unsigned int num_word32, char *str)
 
 }
 
-void vli_print_bytes(uint8_t *vli, unsigned int size)
+void vli_print_bytes(uint_least8_t *vli, unsigned int size)
 {
 	for(unsigned i = 0; i < size; ++i)
 	{
@@ -244,8 +244,8 @@ int keygen_vectors(char **d_vec, char **qx_vec, char **qy_vec, int tests,
 		memset(d, 0, sizeof(d));
 		string2scalar(d, NUM_ECC_WORDS, d_vec[i]);
 
-		uint8_t pub_bytes[2*NUM_ECC_BYTES];
-		uint8_t prv_bytes[NUM_ECC_BYTES];
+		uint_least8_t pub_bytes[2*NUM_ECC_BYTES];
+		uint_least8_t prv_bytes[NUM_ECC_BYTES];
 
 		uECC_make_key_with_d(pub_bytes, prv_bytes, d, uECC_secp256r1());
 

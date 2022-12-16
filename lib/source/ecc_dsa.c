@@ -58,7 +58,7 @@
 #include <tinycrypt/ecc_dsa.h>
 
 
-static void bits2int(uECC_word_t *native, const uint8_t *bits,
+static void bits2int(uECC_word_t *native, const uint_least8_t *bits,
 		     unsigned bits_size, uECC_Curve curve)
 {
 	unsigned num_n_bytes = BITS_TO_BYTES(curve->num_n_bits);
@@ -91,8 +91,8 @@ static void bits2int(uECC_word_t *native, const uint8_t *bits,
 	}
 }
 
-int uECC_sign_with_k(const uint8_t *private_key, const uint8_t *message_hash,
-		     unsigned hash_size, uECC_word_t *k, uint8_t *signature,
+int uECC_sign_with_k(const uint_least8_t *private_key, const uint_least8_t *message_hash,
+		     unsigned hash_size, uECC_word_t *k, uint_least8_t *signature,
 		     uECC_Curve curve)
 {
 
@@ -153,8 +153,8 @@ int uECC_sign_with_k(const uint8_t *private_key, const uint8_t *message_hash,
 	return 1;
 }
 
-int uECC_sign(const uint8_t *private_key, const uint8_t *message_hash,
-	      unsigned hash_size, uint8_t *signature, uECC_Curve curve)
+int uECC_sign(const uint_least8_t *private_key, const uint_least8_t *message_hash,
+	      unsigned hash_size, uint_least8_t *signature, uECC_Curve curve)
 {
 	      uECC_word_t _random[2*NUM_ECC_WORDS];
 	      uECC_word_t k[NUM_ECC_WORDS];
@@ -164,7 +164,7 @@ int uECC_sign(const uint8_t *private_key, const uint8_t *message_hash,
 		/* Generating _random uniformly at random: */
 		uECC_RNG_Function rng_function = uECC_get_rng();
 		if (!rng_function ||
-		    !rng_function((uint8_t *)_random, 2*NUM_ECC_WORDS*uECC_WORD_SIZE)) {
+		    !rng_function((uint_least8_t *)_random, 2*NUM_ECC_WORDS*uECC_WORD_SIZE)) {
 			return 0;
 		}
 
@@ -184,8 +184,8 @@ static bitcount_t smax(bitcount_t a, bitcount_t b)
 	return (a > b ? a : b);
 }
 
-int uECC_verify(const uint8_t *public_key, const uint8_t *message_hash,
-		unsigned hash_size, const uint8_t *signature,
+int uECC_verify(const uint_least8_t *public_key, const uint_least8_t *message_hash,
+		unsigned hash_size, const uint_least8_t *signature,
 	        uECC_Curve curve)
 {
 

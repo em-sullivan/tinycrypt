@@ -80,18 +80,18 @@ int sign_vectors(TCSha256State_t hash, char **d_vec, char **k_vec,
 
 	unsigned int k[NUM_ECC_WORDS];
 	unsigned int private[NUM_ECC_WORDS];
-	uint8_t private_bytes[NUM_ECC_BYTES];
+	uint_least8_t private_bytes[NUM_ECC_BYTES];
 	unsigned int sig[2 * NUM_ECC_WORDS];
-	uint8_t sig_bytes[2 * NUM_ECC_BYTES];
+	uint_least8_t sig_bytes[2 * NUM_ECC_BYTES];
 	unsigned int digest[TC_SHA256_DIGEST_SIZE / 4];
-	uint8_t  digest_bytes[TC_SHA256_DIGEST_SIZE];
+	uint_least8_t  digest_bytes[TC_SHA256_DIGEST_SIZE];
 	unsigned int result = TC_PASS;
 
 	/* expected outputs (converted input vectors) */
 	unsigned int exp_r[NUM_ECC_WORDS];
 	unsigned int exp_s[NUM_ECC_WORDS];
 
-	uint8_t msg[BUF_SIZE];
+	uint_least8_t msg[BUF_SIZE];
 	size_t msglen;
 
 	for (int i = 0; i < tests; i++) {
@@ -346,10 +346,10 @@ int vrfy_vectors(TCSha256State_t hash, char **msg_vec, char **qx_vec, char **qy_
 
 	const struct uECC_Curve_t * curve = uECC_secp256r1();
 	unsigned int pub[2 * NUM_ECC_WORDS];
-	uint8_t pub_bytes[2 * NUM_ECC_BYTES];
+	uint_least8_t pub_bytes[2 * NUM_ECC_BYTES];
 	unsigned int sig[2 * NUM_ECC_WORDS];
-	uint8_t sig_bytes[2 * NUM_ECC_BYTES];
-	uint8_t  digest_bytes[TC_SHA256_DIGEST_SIZE];
+	uint_least8_t sig_bytes[2 * NUM_ECC_BYTES];
+	uint_least8_t  digest_bytes[TC_SHA256_DIGEST_SIZE];
 	unsigned int digest[TC_SHA256_DIGEST_SIZE / 4];
 	unsigned int result = TC_PASS;
 
@@ -357,7 +357,7 @@ int vrfy_vectors(TCSha256State_t hash, char **msg_vec, char **qx_vec, char **qy_
 	int exp_rc;
 	char tmp;
 
-	uint8_t msg[BUF_SIZE];
+	uint_least8_t msg[BUF_SIZE];
 	size_t msglen;
 
 	for (int i = 0; i < tests; i++) {
@@ -592,11 +592,11 @@ int montecarlo_signverify(int num_tests, bool verbose)
 	printf("Test #3: Monte Carlo (%d Randomized EC-DSA signatures) ", num_tests);
 	printf("NIST-p256, SHA2-256\n  ");
 	int i;
-	uint8_t private[NUM_ECC_BYTES];
-	uint8_t public[2*NUM_ECC_BYTES];
-	uint8_t hash[NUM_ECC_BYTES];
+	uint_least8_t private[NUM_ECC_BYTES];
+	uint_least8_t public[2*NUM_ECC_BYTES];
+	uint_least8_t hash[NUM_ECC_BYTES];
 	unsigned int hash_words[NUM_ECC_WORDS];
-	uint8_t sig[2*NUM_ECC_BYTES];
+	uint_least8_t sig[2*NUM_ECC_BYTES];
 
 	const struct uECC_Curve_t * curve = uECC_secp256r1();
 

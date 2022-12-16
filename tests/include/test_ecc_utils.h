@@ -69,7 +69,7 @@ int hex2int (char hex);
  * Convert hex string to byte string
  * Return number of bytes written to buf, or 0 on error
  */
-int hex2bin(uint8_t *buf, const size_t buflen, const char *hex,
+int hex2bin(uint_least8_t *buf, const size_t buflen, const char *hex,
 	    const size_t hexlen);
 
 /*
@@ -89,7 +89,7 @@ int check_ecc_result(const int num, const char *name,
 /* Test ecc_make_keys, and also as keygen part of other tests */
 int keygen_vectors(char **d_vec, char **qx_vec, char **qy_vec, int tests, bool verbose);
 
-void vli_print_bytes(uint8_t *vli, unsigned int size);
+void vli_print_bytes(uint_least8_t *vli, unsigned int size);
 
 
 int check_code(const int num, const char *name, const int expected,

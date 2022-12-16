@@ -81,9 +81,9 @@ struct tc_hmac_prng_struct {
 	/* the HMAC instance for this PRNG */
 	struct tc_hmac_state_struct h;
 	/* the PRNG key */
-	uint8_t key[TC_SHA256_DIGEST_SIZE];
+	uint_least8_t key[TC_SHA256_DIGEST_SIZE];
 	/* PRNG state */
-	uint8_t v[TC_SHA256_DIGEST_SIZE];
+	uint_least8_t v[TC_SHA256_DIGEST_SIZE];
 	/* calls to tc_hmac_prng_generate left before re-seed */
 	unsigned int countdown;
 };
@@ -113,7 +113,7 @@ typedef struct tc_hmac_prng_struct *TCHmacPrng_t;
  *  @param plen IN -- personalization length in bytes
  */
 int tc_hmac_prng_init(TCHmacPrng_t prng,
-		      const uint8_t *personalization,
+		      const uint_least8_t *personalization,
 		      unsigned int plen);
 
 /**
@@ -125,8 +125,8 @@ int tc_hmac_prng_init(TCHmacPrng_t prng,
  *          seed == NULL,
  *          seedlen < MIN_SLEN,
  *          seendlen > MAX_SLEN,
- *          additional_input != (const uint8_t *) 0 && additionallen == 0,
- *          additional_input != (const uint8_t *) 0 && additionallen > MAX_ALEN
+ *          additional_input != (const uint_least8_t *) 0 && additionallen == 0,
+ *          additional_input != (const uint_least8_t *) 0 && additionallen > MAX_ALEN
  *  @note Assumes:- tc_hmac_prng_init has been called for prng
  *              - seed has sufficient entropy.
  *
@@ -136,8 +136,8 @@ int tc_hmac_prng_init(TCHmacPrng_t prng,
  *  @param additional_input IN -- additional input to the prng
  *  @param additionallen IN -- additional input length in bytes
  */
-int tc_hmac_prng_reseed(TCHmacPrng_t prng, const uint8_t *seed,
-			unsigned int seedlen, const uint8_t *additional_input,
+int tc_hmac_prng_reseed(TCHmacPrng_t prng, const uint_least8_t *seed,
+			unsigned int seedlen, const uint_least8_t *additional_input,
 			unsigned int additionallen);
 
 /**
@@ -155,7 +155,7 @@ int tc_hmac_prng_reseed(TCHmacPrng_t prng, const uint8_t *seed,
  *  @param outlen IN -- size of out buffer in bytes
  *  @param prng IN/OUT -- the PRNG state
  */
-int tc_hmac_prng_generate(uint8_t *out, unsigned int outlen, TCHmacPrng_t prng);
+int tc_hmac_prng_generate(uint_least8_t *out, unsigned int outlen, TCHmacPrng_t prng);
 
 #ifdef __cplusplus
 }

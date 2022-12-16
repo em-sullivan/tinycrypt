@@ -90,7 +90,7 @@ extern "C" {
 /* struct tc_ccm_mode_struct represents the state of a CCM computation */
 typedef struct tc_ccm_mode_struct {
 	TCAesKeySched_t sched; /* AES key schedule */
-	uint8_t *nonce; /* nonce required by CCM */
+	uint_least8_t *nonce; /* nonce required by CCM */
 	unsigned int mlen; /* mac length in bytes (parameter t in SP-800 38C) */
 } *TCCcmMode_t;
 
@@ -108,7 +108,7 @@ typedef struct tc_ccm_mode_struct {
  * @param nlen -- nonce length in bytes
  * @param mlen -- mac length in bytes (parameter t in SP-800 38C)
  */
-int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint8_t *nonce,
+int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint_least8_t *nonce,
 		  unsigned int nlen, unsigned int mlen);
 
 /**
@@ -153,9 +153,9 @@ int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint8_t *nonce,
  *          6: Adata (0 if alen == 0, and 1 otherwise)
  *          7: always 0
  */
-int tc_ccm_generation_encryption(uint8_t *out, unsigned int olen,
-			   	 const uint8_t *associated_data,
-			   	 unsigned int alen, const uint8_t *payload,
+int tc_ccm_generation_encryption(uint_least8_t *out, unsigned int olen,
+			   	 const uint_least8_t *associated_data,
+			   	 unsigned int alen, const uint_least8_t *payload,
 				 unsigned int plen, TCCcmMode_t c);
 
 /**
@@ -199,9 +199,9 @@ int tc_ccm_generation_encryption(uint8_t *out, unsigned int olen,
  *          6: Adata (0 if alen == 0, and 1 otherwise)
  *          7: always 0
  */
-int tc_ccm_decryption_verification(uint8_t *out, unsigned int olen,
-				   const uint8_t *associated_data,
-				   unsigned int alen, const uint8_t *payload, unsigned int plen,
+int tc_ccm_decryption_verification(uint_least8_t *out, unsigned int olen,
+				   const uint_least8_t *associated_data,
+				   unsigned int alen, const uint_least8_t *payload, unsigned int plen,
 				   TCCcmMode_t c);
 
 #ifdef __cplusplus

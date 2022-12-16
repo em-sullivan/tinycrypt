@@ -42,7 +42,7 @@
 #include <string.h>
 
 /* utility function to convert hex character representation to their nibble (4 bit) values */
-static uint8_t nibbleFromChar(char c)
+static uint_least8_t nibbleFromChar(char c)
 {
 	if(c >= '0' && c <= '9') return c - '0';
 	if(c >= 'a' && c <= 'f') return c - 'a' + 10U;
@@ -54,15 +54,15 @@ static uint8_t nibbleFromChar(char c)
  * Convert a string of characters representing a hex buffer into a series of 
  * bytes of that real value 
  */
-uint8_t *hexStringToBytes(char *inhex)
+uint_least8_t *hexStringToBytes(char *inhex)
 {
-	uint8_t *retval;
-	uint8_t *p;
+	uint_least8_t *retval;
+	uint_least8_t *p;
 	int len, i;
 	
 	len = strlen(inhex) / 2;
-	retval = (uint8_t *)malloc(len+1);
-	for(i=0, p = (uint8_t *) inhex; i<len; i++) {
+	retval = (uint_least8_t *)malloc(len+1);
+	for(i=0, p = (uint_least8_t *) inhex; i<len; i++) {
 		retval[i] = (nibbleFromChar(*p) << 4) | nibbleFromChar(*(p+1));
 		p += 2;
 	}
@@ -252,22 +252,22 @@ PRNG_Vector vectors[] = {
 static unsigned int executePRNG_TestVector(PRNG_Vector vector, unsigned int idx)
 {
 	unsigned int result = TC_PASS;
-	uint8_t * entropy    = hexStringToBytes(vector.entropyString);
+	uint_least8_t * entropy    = hexStringToBytes(vector.entropyString);
 	unsigned int  entropylen = strlen(vector.entropyString) / 2U;
 
-	uint8_t * expected    = hexStringToBytes(vector.expectedString);
+	uint_least8_t * expected    = hexStringToBytes(vector.expectedString);
 	unsigned int  expectedlen = strlen(vector.expectedString) / 2U;
 
-	uint8_t * personalization   = 0;
+	uint_least8_t * personalization   = 0;
 	unsigned int  plen              = 0U;
 
-	uint8_t * additional_input1 = 0;
+	uint_least8_t * additional_input1 = 0;
 	unsigned int  additionallen1    = 0U;
 
-	uint8_t * additional_input2 = 0;
+	uint_least8_t * additional_input2 = 0;
 	unsigned int  additionallen2    = 0U;
 
-	uint8_t * output = (uint8_t *)malloc(expectedlen);
+	uint_least8_t * output = (uint_least8_t *)malloc(expectedlen);
 
 	unsigned int i;
 	TCCtrPrng_t ctx;
@@ -313,9 +313,9 @@ static unsigned int executePRNG_TestVector(PRNG_Vector vector, unsigned int idx)
 static int test_reseed(void)
 {
 	int result = TC_PASS;
-	uint8_t entropy[32U] = {0U}; /* value not important */
-	uint8_t additional_input[32] = {0U};
-	uint8_t output[32];
+	uint_least8_t entropy[32U] = {0U}; /* value not important */
+	uint_least8_t additional_input[32] = {0U};
+	uint_least8_t output[32];
 	TCCtrPrng_t ctx;
 	int ret;
 	unsigned int i;
@@ -365,7 +365,7 @@ static int test_reseed(void)
 		goto exitTest;
 	}
 	{
-		uint8_t expectedV[] =
+		uint_least8_t expectedV[] =
 			{0x7EU, 0xE3U, 0xA0U, 0xCBU, 0x6DU, 0x5CU, 0x4BU, 0xC2U,
 			 0x4BU, 0x7EU, 0x3CU, 0x48U, 0x88U, 0xC3U, 0x69U, 0x70U};
 		for (i = 0U; i < sizeof expectedV; i++) {
@@ -387,7 +387,7 @@ static int test_reseed(void)
 		goto exitTest;
 	}
 	{
-		uint8_t expectedV[] =
+		uint_least8_t expectedV[] =
 			{0x5EU, 0xC1U, 0x84U, 0xEDU, 0x45U, 0x76U, 0x67U, 0xECU,
 			 0x7BU, 0x4CU, 0x08U, 0x7EU, 0xB0U, 0xF9U, 0x55U, 0x4EU};
 		for (i = 0U; i < sizeof expectedV; i++) {
@@ -409,7 +409,7 @@ static int test_uninstantiate(void)
 {
 	unsigned int i;
 	int result = TC_PASS;
-	uint8_t entropy[32U] = {0U}; /* value not important */
+	uint_least8_t entropy[32U] = {0U}; /* value not important */
 	TCCtrPrng_t ctx;
 
 	(void)tc_ctr_prng_init(&ctx, entropy, sizeof entropy, 0, 0U);
@@ -444,8 +444,8 @@ static int test_robustness(void)
 {
 	int result = TC_PASS;
 	int ret;
-	uint8_t entropy[32U] = {0U}; /* value not important */
-	uint8_t output[32];
+	uint_least8_t entropy[32U] = {0U}; /* value not important */
+	uint_least8_t output[32];
 	TCCtrPrng_t ctx;
 
 

@@ -75,14 +75,14 @@ const unsigned char gf_wrap = 0x87;
  *  effects: doubles the GF(2^n) value pointed to by "in" and places
  *           the result in the GF(2^n) value pointed to by "out."
  */
-void gf_double(uint8_t *out, uint8_t *in)
+void gf_double(uint_least8_t *out, uint_least8_t *in)
 {
 
 	/* start with low order byte */
-	uint8_t *x = in + (TC_AES_BLOCK_SIZE - 1);
+	uint_least8_t *x = in + (TC_AES_BLOCK_SIZE - 1);
 
 	/* if msb == 1, we need to add the gf_wrap value, otherwise add 0 */
-	uint8_t carry = (in[0] >> 7) ? gf_wrap : 0;
+	uint_least8_t carry = (in[0] >> 7) ? gf_wrap : 0;
 
 	out += (TC_AES_BLOCK_SIZE - 1);
 	for (;;) {
@@ -94,12 +94,12 @@ void gf_double(uint8_t *out, uint8_t *in)
 	}
 }
 
-int tc_cmac_setup(TCCmacState_t s, const uint8_t *key, TCAesKeySched_t sched)
+int tc_cmac_setup(TCCmacState_t s, const uint_least8_t *key, TCAesKeySched_t sched)
 {
 
 	/* input sanity check: */
 	if (s == (TCCmacState_t) 0 ||
-	    key == (const uint8_t *) 0) {
+	    key == (const uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
 	}
 
@@ -154,7 +154,7 @@ int tc_cmac_init(TCCmacState_t s)
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_cmac_update(TCCmacState_t s, const uint8_t *data, size_t data_length)
+int tc_cmac_update(TCCmacState_t s, const uint_least8_t *data, size_t data_length)
 {
 	unsigned int i;
 
@@ -165,7 +165,7 @@ int tc_cmac_update(TCCmacState_t s, const uint8_t *data, size_t data_length)
 	if (data_length == 0) {
 		return  TC_CRYPTO_SUCCESS;
 	}
-	if (data == (const uint8_t *) 0) {
+	if (data == (const uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
 	}
 
@@ -219,27 +219,27 @@ int tc_cmac_update(TCCmacState_t s, const uint8_t *data, size_t data_length)
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_cmac_final(uint8_t *tag, TCCmacState_t s)
+int tc_cmac_final(uint_least8_t *tag, TCCmacState_t s)
 {
-	uint8_t *k;
+	uint_least8_t *k;
 	unsigned int i;
 
 	/* input sanity check: */
-	if (tag == (uint8_t *) 0 ||
+	if (tag == (uint_least8_t *) 0 ||
 	    s == (TCCmacState_t) 0) {
 		return TC_CRYPTO_FAIL;
 	}
 
 	if (s->leftover_offset == TC_AES_BLOCK_SIZE) {
 		/* the last message block is a full-sized block */
-		k = (uint8_t *) s->K1;
+		k = (uint_least8_t *) s->K1;
 	} else {
 		/* the final message block is not a full-sized  block */
 		size_t remaining = TC_AES_BLOCK_SIZE - s->leftover_offset;
 
 		_set(&s->leftover[s->leftover_offset], 0, remaining);
 		s->leftover[s->leftover_offset] = TC_CMAC_PADDING;
-		k = (uint8_t *) s->K2;
+		k = (uint_least8_t *) s->K2;
 	}
 	for (i = 0; i < TC_AES_BLOCK_SIZE; ++i) {
 		s->iv[i] ^= s->leftover[i] ^ k[i];

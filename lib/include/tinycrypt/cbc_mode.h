@@ -107,8 +107,8 @@ extern "C" {
  *  @param iv IN -- the IV for the this encrypt/decrypt
  *  @param sched IN --  AES key schedule for this encrypt
  */
-int tc_cbc_mode_encrypt(uint8_t *out, unsigned int outlen, const uint8_t *in,
-			unsigned int inlen, const uint8_t *iv,
+int tc_cbc_mode_encrypt(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
+			unsigned int inlen, const uint_least8_t *iv,
 			const TCAesKeySched_t sched);
 
 /**
@@ -140,8 +140,8 @@ int tc_cbc_mode_encrypt(uint8_t *out, unsigned int outlen, const uint8_t *in,
  * @param sched IN --  AES key schedule for this decrypt
  *
  */
-int tc_cbc_mode_decrypt(uint8_t *out, unsigned int outlen, const uint8_t *in,
-			unsigned int inlen, const uint8_t *iv,
+int tc_cbc_mode_decrypt(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
+			unsigned int inlen, const uint_least8_t *iv,
 			const TCAesKeySched_t sched);
 
 #ifdef __cplusplus

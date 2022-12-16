@@ -84,7 +84,7 @@
 			result == TC_PASS ? "SUCCESSFUL" : "FAILED");   \
 	} while (0)
 
-static inline void show_str(const char *label, const uint8_t *s, size_t len)
+static inline void show_str(const char *label, const uint_least8_t *s, size_t len)
 {
         unsigned int i;
 

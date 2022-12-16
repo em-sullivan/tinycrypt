@@ -34,19 +34,19 @@
 #include <tinycrypt/ctr_mode.h>
 #include <tinycrypt/utils.h>
 
-int tc_ctr_mode(uint8_t *out, unsigned int outlen, const uint8_t *in,
-		unsigned int inlen, uint8_t *ctr, const TCAesKeySched_t sched)
+int tc_ctr_mode(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
+		unsigned int inlen, uint_least8_t *ctr, const TCAesKeySched_t sched)
 {
 
-	uint8_t buffer[TC_AES_BLOCK_SIZE];
-	uint8_t nonce[TC_AES_BLOCK_SIZE];
+	uint_least8_t buffer[TC_AES_BLOCK_SIZE];
+	uint_least8_t nonce[TC_AES_BLOCK_SIZE];
 	unsigned int block_num;
 	unsigned int i;
 
 	/* input sanity check: */
-	if (out == (uint8_t *) 0 ||
-	    in == (uint8_t *) 0 ||
-	    ctr == (uint8_t *) 0 ||
+	if (out == (uint_least8_t *) 0 ||
+	    in == (uint_least8_t *) 0 ||
+	    ctr == (uint_least8_t *) 0 ||
 	    sched == (TCAesKeySched_t) 0 ||
 	    inlen == 0 ||
 	    outlen == 0 ||
@@ -65,10 +65,10 @@ int tc_ctr_mode(uint8_t *out, unsigned int outlen, const uint8_t *in,
 			/* encrypt data using the current nonce */
 			if (tc_aes_encrypt(buffer, nonce, sched)) {
 				block_num++;
-				nonce[12] = (uint8_t)(block_num >> 24);
-				nonce[13] = (uint8_t)(block_num >> 16);
-				nonce[14] = (uint8_t)(block_num >> 8);
-				nonce[15] = (uint8_t)(block_num);
+				nonce[12] = (uint_least8_t)(block_num >> 24);
+				nonce[13] = (uint_least8_t)(block_num >> 16);
+				nonce[14] = (uint_least8_t)(block_num >> 8);
+				nonce[15] = (uint_least8_t)(block_num);
 			} else {
 				return TC_CRYPTO_FAIL;
 			}

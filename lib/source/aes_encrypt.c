@@ -34,7 +34,7 @@
 #include <tinycrypt/utils.h>
 #include <tinycrypt/constants.h>
 
-static const uint8_t sbox[256] = {
+static const uint_least8_t sbox[256] = {
 	0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b,
 	0xfe, 0xd7, 0xab, 0x76, 0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0,
 	0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0, 0xb7, 0xfd, 0x93, 0x26,
@@ -67,7 +67,7 @@ static inline unsigned int rotword(unsigned int a)
 #define subbyte(a, o)(sbox[((a) >> (o))&0xff] << (o))
 #define subword(a)(subbyte(a, 24)|subbyte(a, 16)|subbyte(a, 8)|subbyte(a, 0))
 
-int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint8_t *k)
+int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint_least8_t *k)
 {
 	const unsigned int rconst[11] = {
 		0x00000000, 0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000,
@@ -78,7 +78,7 @@ int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint8_t *k)
 
 	if (s == (TCAesKeySched_t) 0) {
 		return TC_CRYPTO_FAIL;
-	} else if (k == (const uint8_t *) 0) {
+	} else if (k == (const uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
 	}
 
@@ -98,19 +98,19 @@ int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint8_t *k)
 	return TC_CRYPTO_SUCCESS;
 }
 
-static inline void add_round_key(uint8_t *s, const unsigned int *k)
+static inline void add_round_key(uint_least8_t *s, const unsigned int *k)
 {
-	s[0] ^= (uint8_t)(k[0] >> 24); s[1] ^= (uint8_t)(k[0] >> 16);
-	s[2] ^= (uint8_t)(k[0] >> 8); s[3] ^= (uint8_t)(k[0]);
-	s[4] ^= (uint8_t)(k[1] >> 24); s[5] ^= (uint8_t)(k[1] >> 16);
-	s[6] ^= (uint8_t)(k[1] >> 8); s[7] ^= (uint8_t)(k[1]);
-	s[8] ^= (uint8_t)(k[2] >> 24); s[9] ^= (uint8_t)(k[2] >> 16);
-	s[10] ^= (uint8_t)(k[2] >> 8); s[11] ^= (uint8_t)(k[2]);
-	s[12] ^= (uint8_t)(k[3] >> 24); s[13] ^= (uint8_t)(k[3] >> 16);
-	s[14] ^= (uint8_t)(k[3] >> 8); s[15] ^= (uint8_t)(k[3]);
+	s[0] ^= (uint_least8_t)(k[0] >> 24); s[1] ^= (uint_least8_t)(k[0] >> 16);
+	s[2] ^= (uint_least8_t)(k[0] >> 8); s[3] ^= (uint_least8_t)(k[0]);
+	s[4] ^= (uint_least8_t)(k[1] >> 24); s[5] ^= (uint_least8_t)(k[1] >> 16);
+	s[6] ^= (uint_least8_t)(k[1] >> 8); s[7] ^= (uint_least8_t)(k[1]);
+	s[8] ^= (uint_least8_t)(k[2] >> 24); s[9] ^= (uint_least8_t)(k[2] >> 16);
+	s[10] ^= (uint_least8_t)(k[2] >> 8); s[11] ^= (uint_least8_t)(k[2]);
+	s[12] ^= (uint_least8_t)(k[3] >> 24); s[13] ^= (uint_least8_t)(k[3] >> 16);
+	s[14] ^= (uint_least8_t)(k[3] >> 8); s[15] ^= (uint_least8_t)(k[3]);
 }
 
-static inline void sub_bytes(uint8_t *s)
+static inline void sub_bytes(uint_least8_t *s)
 {
 	unsigned int i;
 
@@ -121,7 +121,7 @@ static inline void sub_bytes(uint8_t *s)
 
 #define triple(a)(_double_byte(a)^(a))
 
-static inline void mult_row_column(uint8_t *out, const uint8_t *in)
+static inline void mult_row_column(uint_least8_t *out, const uint_least8_t *in)
 {
 	out[0] = _double_byte(in[0]) ^ triple(in[1]) ^ in[2] ^ in[3];
 	out[1] = in[0] ^ _double_byte(in[1]) ^ triple(in[2]) ^ in[3];
@@ -129,9 +129,9 @@ static inline void mult_row_column(uint8_t *out, const uint8_t *in)
 	out[3] = triple(in[0]) ^ in[1] ^ in[2] ^ _double_byte(in[3]);
 }
 
-static inline void mix_columns(uint8_t *s)
+static inline void mix_columns(uint_least8_t *s)
 {
-	uint8_t t[Nb*Nk];
+	uint_least8_t t[Nb*Nk];
 
 	mult_row_column(t, s);
 	mult_row_column(&t[Nb], s+Nb);
@@ -144,9 +144,9 @@ static inline void mix_columns(uint8_t *s)
  * This shift_rows also implements the matrix flip required for mix_columns, but
  * performs it here to reduce the number of memory operations.
  */
-static inline void shift_rows(uint8_t *s)
+static inline void shift_rows(uint_least8_t *s)
 {
-	uint8_t t[Nb * Nk];
+	uint_least8_t t[Nb * Nk];
 
 	t[0]  = s[0]; t[1] = s[5]; t[2] = s[10]; t[3] = s[15];
 	t[4]  = s[4]; t[5] = s[9]; t[6] = s[14]; t[7] = s[3];
@@ -155,14 +155,14 @@ static inline void shift_rows(uint8_t *s)
 	(void) _copy(s, sizeof(t), t, sizeof(t));
 }
 
-int tc_aes_encrypt(uint8_t *out, const uint8_t *in, const TCAesKeySched_t s)
+int tc_aes_encrypt(uint_least8_t *out, const uint_least8_t *in, const TCAesKeySched_t s)
 {
-	uint8_t state[Nk*Nb];
+	uint_least8_t state[Nk*Nb];
 	unsigned int i;
 
-	if (out == (uint8_t *) 0) {
+	if (out == (uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
-	} else if (in == (const uint8_t *) 0) {
+	} else if (in == (const uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
 	} else if (s == (TCAesKeySched_t) 0) {
 		return TC_CRYPTO_FAIL;

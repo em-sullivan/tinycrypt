@@ -34,7 +34,7 @@
 #include <tinycrypt/constants.h>
 #include <tinycrypt/utils.h>
 
-static const uint8_t inv_sbox[256] = {
+static const uint_least8_t inv_sbox[256] = {
 	0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e,
 	0x81, 0xf3, 0xd7, 0xfb, 0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87,
 	0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb, 0x54, 0x7b, 0x94, 0x32,
@@ -59,7 +59,7 @@ static const uint8_t inv_sbox[256] = {
 	0x55, 0x21, 0x0c, 0x7d
 };
 
-int tc_aes128_set_decrypt_key(TCAesKeySched_t s, const uint8_t *k)
+int tc_aes128_set_decrypt_key(TCAesKeySched_t s, const uint_least8_t *k)
 {
 	return tc_aes128_set_encrypt_key(s, k);
 }
@@ -70,7 +70,7 @@ int tc_aes128_set_decrypt_key(TCAesKeySched_t s, const uint8_t *k)
 #define multd(a)(mult8(a)^_double_byte(_double_byte(a))^(a))
 #define multe(a)(mult8(a)^_double_byte(_double_byte(a))^_double_byte(a))
 
-static inline void mult_row_column(uint8_t *out, const uint8_t *in)
+static inline void mult_row_column(uint_least8_t *out, const uint_least8_t *in)
 {
 	out[0] = multe(in[0]) ^ multb(in[1]) ^ multd(in[2]) ^ mult9(in[3]);
 	out[1] = mult9(in[0]) ^ multe(in[1]) ^ multb(in[2]) ^ multd(in[3]);
@@ -78,9 +78,9 @@ static inline void mult_row_column(uint8_t *out, const uint8_t *in)
 	out[3] = multb(in[0]) ^ multd(in[1]) ^ mult9(in[2]) ^ multe(in[3]);
 }
 
-static inline void inv_mix_columns(uint8_t *s)
+static inline void inv_mix_columns(uint_least8_t *s)
 {
-	uint8_t t[Nb*Nk];
+	uint_least8_t t[Nb*Nk];
 
 	mult_row_column(t, s);
 	mult_row_column(&t[Nb], s+Nb);
@@ -89,19 +89,19 @@ static inline void inv_mix_columns(uint8_t *s)
 	(void)_copy(s, sizeof(t), t, sizeof(t));
 }
 
-static inline void add_round_key(uint8_t *s, const unsigned int *k)
+static inline void add_round_key(uint_least8_t *s, const unsigned int *k)
 {
-	s[0] ^= (uint8_t)(k[0] >> 24); s[1] ^= (uint8_t)(k[0] >> 16);
-	s[2] ^= (uint8_t)(k[0] >> 8); s[3] ^= (uint8_t)(k[0]);
-	s[4] ^= (uint8_t)(k[1] >> 24); s[5] ^= (uint8_t)(k[1] >> 16);
-	s[6] ^= (uint8_t)(k[1] >> 8); s[7] ^= (uint8_t)(k[1]);
-	s[8] ^= (uint8_t)(k[2] >> 24); s[9] ^= (uint8_t)(k[2] >> 16);
-	s[10] ^= (uint8_t)(k[2] >> 8); s[11] ^= (uint8_t)(k[2]);
-	s[12] ^= (uint8_t)(k[3] >> 24); s[13] ^= (uint8_t)(k[3] >> 16);
-	s[14] ^= (uint8_t)(k[3] >> 8); s[15] ^= (uint8_t)(k[3]);
+	s[0] ^= (uint_least8_t)(k[0] >> 24); s[1] ^= (uint_least8_t)(k[0] >> 16);
+	s[2] ^= (uint_least8_t)(k[0] >> 8); s[3] ^= (uint_least8_t)(k[0]);
+	s[4] ^= (uint_least8_t)(k[1] >> 24); s[5] ^= (uint_least8_t)(k[1] >> 16);
+	s[6] ^= (uint_least8_t)(k[1] >> 8); s[7] ^= (uint_least8_t)(k[1]);
+	s[8] ^= (uint_least8_t)(k[2] >> 24); s[9] ^= (uint_least8_t)(k[2] >> 16);
+	s[10] ^= (uint_least8_t)(k[2] >> 8); s[11] ^= (uint_least8_t)(k[2]);
+	s[12] ^= (uint_least8_t)(k[3] >> 24); s[13] ^= (uint_least8_t)(k[3] >> 16);
+	s[14] ^= (uint_least8_t)(k[3] >> 8); s[15] ^= (uint_least8_t)(k[3]);
 }
 
-static inline void inv_sub_bytes(uint8_t *s)
+static inline void inv_sub_bytes(uint_least8_t *s)
 {
 	unsigned int i;
 
@@ -115,9 +115,9 @@ static inline void inv_sub_bytes(uint8_t *s)
  * inv_mix_columns, but performs it here to reduce the number of memory
  * operations.
  */
-static inline void inv_shift_rows(uint8_t *s)
+static inline void inv_shift_rows(uint_least8_t *s)
 {
-	uint8_t t[Nb*Nk];
+	uint_least8_t t[Nb*Nk];
 
 	t[0]  = s[0]; t[1] = s[13]; t[2] = s[10]; t[3] = s[7];
 	t[4]  = s[4]; t[5] = s[1]; t[6] = s[14]; t[7] = s[11];
@@ -126,14 +126,14 @@ static inline void inv_shift_rows(uint8_t *s)
 	(void)_copy(s, sizeof(t), t, sizeof(t));
 }
 
-int tc_aes_decrypt(uint8_t *out, const uint8_t *in, const TCAesKeySched_t s)
+int tc_aes_decrypt(uint_least8_t *out, const uint_least8_t *in, const TCAesKeySched_t s)
 {
-	uint8_t state[Nk*Nb];
+	uint_least8_t state[Nk*Nb];
 	unsigned int i;
 
-	if (out == (uint8_t *) 0) {
+	if (out == (uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
-	} else if (in == (const uint8_t *) 0) {
+	} else if (in == (const uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
 	} else if (s == (TCAesKeySched_t) 0) {
 		return TC_CRYPTO_FAIL;

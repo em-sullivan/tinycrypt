@@ -60,7 +60,7 @@
 #include <tinycrypt/utils.h>
 #include <string.h>
 
-int uECC_make_key_with_d(uint8_t *public_key, uint8_t *private_key,
+int uECC_make_key_with_d(uint_least8_t *public_key, uint_least8_t *private_key,
 			 unsigned int *d, uECC_Curve curve)
 {
 
@@ -94,7 +94,7 @@ int uECC_make_key_with_d(uint8_t *public_key, uint8_t *private_key,
 	return 0;
 }
 
-int uECC_make_key(uint8_t *public_key, uint8_t *private_key, uECC_Curve curve)
+int uECC_make_key(uint_least8_t *public_key, uint_least8_t *private_key, uECC_Curve curve)
 {
 
 	uECC_word_t _random[NUM_ECC_WORDS * 2];
@@ -106,7 +106,7 @@ int uECC_make_key(uint8_t *public_key, uint8_t *private_key, uECC_Curve curve)
 		/* Generating _private uniformly at random: */
 		uECC_RNG_Function rng_function = uECC_get_rng();
 		if (!rng_function ||
-			!rng_function((uint8_t *)_random, 2 * NUM_ECC_WORDS*uECC_WORD_SIZE)) {
+			!rng_function((uint_least8_t *)_random, 2 * NUM_ECC_WORDS*uECC_WORD_SIZE)) {
         		return 0;
 		}
 
@@ -136,8 +136,8 @@ int uECC_make_key(uint8_t *public_key, uint8_t *private_key, uECC_Curve curve)
 	return 0;
 }
 
-int uECC_shared_secret(const uint8_t *public_key, const uint8_t *private_key,
-		       uint8_t *secret, uECC_Curve curve)
+int uECC_shared_secret(const uint_least8_t *public_key, const uint_least8_t *private_key,
+		       uint_least8_t *secret, uECC_Curve curve)
 {
 
 	uECC_word_t _public[NUM_ECC_WORDS * 2];

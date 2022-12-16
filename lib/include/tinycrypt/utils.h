@@ -58,8 +58,8 @@ extern "C" {
  * @param from IN -- origin buffer
  * @param from_len IN -- length of origin buffer
  */
-unsigned int _copy(uint8_t *to, unsigned int to_len,
-	           const uint8_t *from, unsigned int from_len);
+unsigned int _copy(uint_least8_t *to, unsigned int to_len,
+	           const uint_least8_t *from, unsigned int from_len);
 
 /**
  * @brief Set the value 'val' into the buffer 'to', 'len' times.
@@ -68,7 +68,7 @@ unsigned int _copy(uint8_t *to, unsigned int to_len,
  * @param val IN -- value to be set in 'to'
  * @param len IN -- number of times the value will be copied
  */
-void _set(void *to, uint8_t val, unsigned int len);
+void _set(void *to, uint_least8_t val, unsigned int len);
 
 /**
  * @brief Set the value 'val' into the buffer 'to', 'len' times, in a way
@@ -84,9 +84,9 @@ void _set(void *to, uint8_t val, unsigned int len);
  * @param len IN -- number of times the value will be copied
  */
 #ifdef TINYCRYPT_ARCH_HAS_SET_SECURE
-extern void _set_secure(void *to, uint8_t val, unsigned int len);
+extern void _set_secure(void *to, uint_least8_t val, unsigned int len);
 #else /* ! TINYCRYPT_ARCH_HAS_SET_SECURE */
-static inline void _set_secure(void *to, uint8_t val, unsigned int len)
+static inline void _set_secure(void *to, uint_least8_t val, unsigned int len)
 {
   (void) memset(to, val, len);
 #ifdef __GNUC__
@@ -102,7 +102,7 @@ static inline void _set_secure(void *to, uint8_t val, unsigned int len)
  *
  * @param a IN/OUT -- value to be doubled
  */
-uint8_t _double_byte(uint8_t a);
+uint_least8_t _double_byte(uint_least8_t a);
 
 /*
  * @brief Constant-time algorithm to compare if two sequences of bytes are equal
@@ -112,7 +112,7 @@ uint8_t _double_byte(uint8_t a);
  * @param b IN -- sequence of bytes b
  * @param size IN -- size of sequences a and b
  */
-int _compare(const uint8_t *a, const uint8_t *b, size_t size);
+int _compare(const uint_least8_t *a, const uint_least8_t *b, size_t size);
 
 #ifdef __cplusplus
 }
