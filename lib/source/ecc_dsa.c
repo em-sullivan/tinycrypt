@@ -59,10 +59,10 @@
 
 
 static void bits2int(uECC_word_t *native, const uint_least8_t *bits,
-		     unsigned bits_size, uECC_Curve curve)
+		     uint32_t bits_size, uECC_Curve curve)
 {
-	unsigned num_n_bytes = BITS_TO_BYTES(curve->num_n_bits);
-	unsigned num_n_words = BITS_TO_WORDS(curve->num_n_bits);
+	uint32_t num_n_bytes = BITS_TO_BYTES(curve->num_n_bits);
+	uint32_t num_n_words = BITS_TO_WORDS(curve->num_n_bits);
 	int shift;
 	uECC_word_t carry;
 	uECC_word_t *ptr;
@@ -73,7 +73,7 @@ static void bits2int(uECC_word_t *native, const uint_least8_t *bits,
 
 	uECC_vli_clear(native, num_n_words);
 	uECC_vli_bytesToNative(native, bits, bits_size);
-	if (bits_size * 8 <= (unsigned)curve->num_n_bits) {
+	if (bits_size * 8 <= (uint32_t)curve->num_n_bits) {
 		return;
 	}
 	shift = bits_size * 8 - curve->num_n_bits;
@@ -92,7 +92,7 @@ static void bits2int(uECC_word_t *native, const uint_least8_t *bits,
 }
 
 int uECC_sign_with_k(const uint_least8_t *private_key, const uint_least8_t *message_hash,
-		     unsigned hash_size, uECC_word_t *k, uint_least8_t *signature,
+		     uint32_t hash_size, uECC_word_t *k, uint_least8_t *signature,
 		     uECC_Curve curve)
 {
 
@@ -154,7 +154,7 @@ int uECC_sign_with_k(const uint_least8_t *private_key, const uint_least8_t *mess
 }
 
 int uECC_sign(const uint_least8_t *private_key, const uint_least8_t *message_hash,
-	      unsigned hash_size, uint_least8_t *signature, uECC_Curve curve)
+	      uint32_t hash_size, uint_least8_t *signature, uECC_Curve curve)
 {
 	      uECC_word_t _random[2*NUM_ECC_WORDS];
 	      uECC_word_t k[NUM_ECC_WORDS];
@@ -185,7 +185,7 @@ static bitcount_t smax(bitcount_t a, bitcount_t b)
 }
 
 int uECC_verify(const uint_least8_t *public_key, const uint_least8_t *message_hash,
-		unsigned hash_size, const uint_least8_t *signature,
+		uint32_t hash_size, const uint_least8_t *signature,
 	        uECC_Curve curve)
 {
 

@@ -59,7 +59,7 @@ static const uint_least8_t sbox[256] = {
 	0xb0, 0x54, 0xbb, 0x16
 };
 
-static inline unsigned int rotword(unsigned int a)
+static inline uint32_t rotword(uint32_t a)
 {
 	return (((a) >> 24)|((a) << 8));
 }
@@ -69,12 +69,12 @@ static inline unsigned int rotword(unsigned int a)
 
 int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint_least8_t *k)
 {
-	const unsigned int rconst[11] = {
+	const uint32_t rconst[11] = {
 		0x00000000, 0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000,
 		0x20000000, 0x40000000, 0x80000000, 0x1b000000, 0x36000000
 	};
-	unsigned int i;
-	unsigned int t;
+	uint32_t i;
+	uint32_t t;
 
 	if (s == (TCAesKeySched_t) 0) {
 		return TC_CRYPTO_FAIL;
@@ -83,8 +83,8 @@ int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint_least8_t *k)
 	}
 
 	for (i = 0; i < Nk; ++i) {
-		s->words[i] = (k[Nb*i]<<24) | (k[Nb*i+1]<<16) |
-			      (k[Nb*i+2]<<8) | (k[Nb*i+3]);
+		s->words[i] = ((uint32_t)k[Nb*i]<<24) | ((uint32_t)k[Nb*i+1]<<16) |
+			      ((uint32_t)k[Nb*i+2]<<8) | ((uint32_t)k[Nb*i+3]);
 	}
 
 	for (; i < (Nb * (Nr + 1)); ++i) {
@@ -98,7 +98,7 @@ int tc_aes128_set_encrypt_key(TCAesKeySched_t s, const uint_least8_t *k)
 	return TC_CRYPTO_SUCCESS;
 }
 
-static inline void add_round_key(uint_least8_t *s, const unsigned int *k)
+static inline void add_round_key(uint_least8_t *s, const uint32_t *k)
 {
 	s[0] ^= (uint_least8_t)(k[0] >> 24); s[1] ^= (uint_least8_t)(k[0] >> 16);
 	s[2] ^= (uint_least8_t)(k[0] >> 8); s[3] ^= (uint_least8_t)(k[0]);
@@ -112,7 +112,7 @@ static inline void add_round_key(uint_least8_t *s, const unsigned int *k)
 
 static inline void sub_bytes(uint_least8_t *s)
 {
-	unsigned int i;
+	uint32_t i;
 
 	for (i = 0; i < (Nb * Nk); ++i) {
 		s[i] = sbox[s[i]];
@@ -158,7 +158,7 @@ static inline void shift_rows(uint_least8_t *s)
 int tc_aes_encrypt(uint_least8_t *out, const uint_least8_t *in, const TCAesKeySched_t s)
 {
 	uint_least8_t state[Nk*Nb];
-	unsigned int i;
+	uint32_t i;
 
 	if (out == (uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;

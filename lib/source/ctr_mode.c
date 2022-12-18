@@ -34,14 +34,14 @@
 #include <tinycrypt/ctr_mode.h>
 #include <tinycrypt/utils.h>
 
-int tc_ctr_mode(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
-		unsigned int inlen, uint_least8_t *ctr, const TCAesKeySched_t sched)
+int tc_ctr_mode(uint_least8_t *out, uint32_t outlen, const uint_least8_t *in,
+		uint32_t inlen, uint_least8_t *ctr, const TCAesKeySched_t sched)
 {
 
 	uint_least8_t buffer[TC_AES_BLOCK_SIZE];
 	uint_least8_t nonce[TC_AES_BLOCK_SIZE];
-	unsigned int block_num;
-	unsigned int i;
+	uint32_t block_num;
+	uint32_t i;
 
 	/* input sanity check: */
 	if (out == (uint_least8_t *) 0 ||
@@ -58,8 +58,8 @@ int tc_ctr_mode(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in
 	(void)_copy(nonce, sizeof(nonce), ctr, sizeof(nonce));
 
 	/* select the last 4 bytes of the nonce to be incremented */
-	block_num = (nonce[12] << 24) | (nonce[13] << 16) |
-		    (nonce[14] << 8) | (nonce[15]);
+	block_num = ((uint32_t)nonce[12] << 24) | ((uint32_t)nonce[13] << 16) |
+		    ((uint32_t)nonce[14] << 8) | ((uint32_t)nonce[15]);
 	for (i = 0; i < inlen; ++i) {
 		if ((i % (TC_AES_BLOCK_SIZE)) == 0) {
 			/* encrypt data using the current nonce */

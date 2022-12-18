@@ -100,9 +100,9 @@ typedef struct {
  */
 int tc_ctr_prng_init(TCCtrPrng_t * const ctx, 
 		     uint_least8_t const * const entropy,
-		     unsigned int entropyLen, 
+		     uint32_t entropyLen,
 		     uint_least8_t const * const personalization,
-		     unsigned int pLen);
+		     uint32_t pLen);
 
 /**
  *  @brief CTR-PRNG reseed procedure
@@ -125,9 +125,9 @@ int tc_ctr_prng_init(TCCtrPrng_t * const ctx,
  */
 int tc_ctr_prng_reseed(TCCtrPrng_t * const ctx, 
 		       uint_least8_t const * const entropy,
-		       unsigned int entropyLen,
+		       uint32_t entropyLen,
 		       uint_least8_t const * const additional_input,
-		       unsigned int additionallen);
+		       uint32_t additionallen);
 
 /**
  *  @brief CTR-PRNG generate procedure
@@ -147,9 +147,9 @@ int tc_ctr_prng_reseed(TCCtrPrng_t * const ctx,
  */
 int tc_ctr_prng_generate(TCCtrPrng_t * const ctx,
 			 uint_least8_t const * const additional_input,
-			 unsigned int additionallen,
+			 uint32_t additionallen,
 			 uint_least8_t * const out,
-			 unsigned int outlen);
+			 uint32_t outlen);
 
 /**
  *  @brief CTR-PRNG uninstantiate procedure

@@ -34,13 +34,13 @@
 #include <tinycrypt/constants.h>
 #include <tinycrypt/utils.h>
 
-int tc_cbc_mode_encrypt(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
-			    unsigned int inlen, const uint_least8_t *iv,
+int tc_cbc_mode_encrypt(uint_least8_t *out, uint32_t outlen, const uint_least8_t *in,
+			    uint32_t inlen, const uint_least8_t *iv,
 			    const TCAesKeySched_t sched)
 {
 
 	uint_least8_t buffer[TC_AES_BLOCK_SIZE];
-	unsigned int n, m;
+	uint32_t n, m;
 
 	/* input sanity check: */
 	if (out == (uint_least8_t *) 0 ||
@@ -74,14 +74,14 @@ int tc_cbc_mode_encrypt(uint_least8_t *out, unsigned int outlen, const uint_leas
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_cbc_mode_decrypt(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
-			    unsigned int inlen, const uint_least8_t *iv,
+int tc_cbc_mode_decrypt(uint_least8_t *out, uint32_t outlen, const uint_least8_t *in,
+			    uint32_t inlen, const uint_least8_t *iv,
 			    const TCAesKeySched_t sched)
 {
 
 	uint_least8_t buffer[TC_AES_BLOCK_SIZE];
 	const uint_least8_t *p;
-	unsigned int n, m;
+	uint32_t n, m;
 
 	/* sanity check the inputs */
 	if (out == (uint_least8_t *) 0 ||

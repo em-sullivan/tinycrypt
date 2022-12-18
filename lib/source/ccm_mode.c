@@ -37,7 +37,7 @@
 #include <stdio.h>
 
 int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint_least8_t *nonce,
-		  unsigned int nlen, unsigned int mlen)
+		  uint32_t nlen, uint32_t mlen)
 {
 
 	/* input sanity check: */
@@ -61,11 +61,11 @@ int tc_ccm_config(TCCcmMode_t c, TCAesKeySched_t sched, uint_least8_t *nonce,
 /**
  * Variation of CBC-MAC mode used in CCM.
  */
-static void ccm_cbc_mac(uint_least8_t *T, const uint_least8_t *data, unsigned int dlen,
-			unsigned int flag, TCAesKeySched_t sched)
+static void ccm_cbc_mac(uint_least8_t *T, const uint_least8_t *data, uint32_t dlen,
+			uint32_t flag, TCAesKeySched_t sched)
 {
 
-	unsigned int i;
+	uint32_t i;
 
 	if (flag > 0) {
 		T[0] ^= (uint_least8_t)(dlen >> 8);
@@ -90,14 +90,14 @@ static void ccm_cbc_mac(uint_least8_t *T, const uint_least8_t *data, unsigned in
  * encryption). Besides, it is assumed that the counter is stored in the last
  * 2 bytes of the nonce.
  */
-static int ccm_ctr_mode(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
-			unsigned int inlen, uint_least8_t *ctr, const TCAesKeySched_t sched)
+static int ccm_ctr_mode(uint_least8_t *out, uint32_t outlen, const uint_least8_t *in,
+			uint32_t inlen, uint_least8_t *ctr, const TCAesKeySched_t sched)
 {
 
 	uint_least8_t buffer[TC_AES_BLOCK_SIZE];
 	uint_least8_t nonce[TC_AES_BLOCK_SIZE];
 	uint16_t block_num;
-	unsigned int i;
+	uint32_t i;
 
 	/* input sanity check: */
 	if (out == (uint_least8_t *) 0 ||
@@ -134,10 +134,10 @@ static int ccm_ctr_mode(uint_least8_t *out, unsigned int outlen, const uint_leas
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_ccm_generation_encryption(uint_least8_t *out, unsigned int olen,
+int tc_ccm_generation_encryption(uint_least8_t *out, uint32_t olen,
 				 const uint_least8_t *associated_data,
-				 unsigned int alen, const uint_least8_t *payload,
-				 unsigned int plen, TCCcmMode_t c)
+				 uint32_t alen, const uint_least8_t *payload,
+				 uint32_t plen, TCCcmMode_t c)
 {
 
 	/* input sanity check: */
@@ -153,7 +153,7 @@ int tc_ccm_generation_encryption(uint_least8_t *out, unsigned int olen,
 
 	uint_least8_t b[Nb * Nk];
 	uint_least8_t tag[Nb * Nk];
-	unsigned int i;
+	uint32_t i;
 
 	/* GENERATING THE AUTHENTICATION TAG: */
 
@@ -195,10 +195,10 @@ int tc_ccm_generation_encryption(uint_least8_t *out, unsigned int olen,
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_ccm_decryption_verification(uint_least8_t *out, unsigned int olen,
+int tc_ccm_decryption_verification(uint_least8_t *out, uint32_t olen,
 				   const uint_least8_t *associated_data,
-				   unsigned int alen, const uint_least8_t *payload,
-				   unsigned int plen, TCCcmMode_t c)
+				   uint32_t alen, const uint_least8_t *payload,
+				   uint32_t plen, TCCcmMode_t c)
 {
 
 	/* input sanity check: */
@@ -214,7 +214,7 @@ int tc_ccm_decryption_verification(uint_least8_t *out, unsigned int olen,
 
 	uint_least8_t b[Nb * Nk];
 	uint_least8_t tag[Nb * Nk];
-	unsigned int i;
+	uint32_t i;
 
 	/* DECRYPTION: */
 

@@ -98,8 +98,8 @@ extern "C" {
  * @param ctr IN/OUT -- the current counter value
  * @param sched IN -- an initialized AES key schedule
  */
-int tc_ctr_mode(uint_least8_t *out, unsigned int outlen, const uint_least8_t *in,
-		unsigned int inlen, uint_least8_t *ctr, const TCAesKeySched_t sched);
+int tc_ctr_mode(uint_least8_t *out, uint32_t outlen, const uint_least8_t *in,
+		uint32_t inlen, uint_least8_t *ctr, const TCAesKeySched_t sched);
 
 #ifdef __cplusplus
 }

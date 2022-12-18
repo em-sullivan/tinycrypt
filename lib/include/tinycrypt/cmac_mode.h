@@ -119,9 +119,9 @@ typedef struct tc_cmac_struct {
 /* where to put bytes that didn't fill a block */
 	uint_least8_t leftover[TC_AES_BLOCK_SIZE];
 /* identifies the encryption key */
-	unsigned int keyid;
+	uint32_t keyid;
 /* next available leftover location */
-	unsigned int leftover_offset;
+	uint32_t leftover_offset;
 /* AES key schedule */
 	TCAesKeySched_t sched;
 /* calls to tc_cmac_update left before re-key */

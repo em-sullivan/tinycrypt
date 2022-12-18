@@ -37,8 +37,8 @@
 
 #define MASK_TWENTY_SEVEN 0x1b
 
-unsigned int _copy(uint_least8_t *to, unsigned int to_len,
-		   const uint_least8_t *from, unsigned int from_len)
+uint32_t _copy(uint_least8_t *to, uint32_t to_len,
+		   const uint_least8_t *from, uint32_t from_len)
 {
 	if (from_len <= to_len) {
 		(void)memcpy(to, from, from_len);
@@ -48,7 +48,7 @@ unsigned int _copy(uint_least8_t *to, unsigned int to_len,
 	}
 }
 
-void _set(void *to, uint_least8_t val, unsigned int len)
+void _set(void *to, uint_least8_t val, uint32_t len)
 {
 	(void)memset(to, val, len);
 }
@@ -67,7 +67,7 @@ int _compare(const uint_least8_t *a, const uint_least8_t *b, size_t size)
 	const uint_least8_t *tempb = b;
 	uint_least8_t result = 0;
 
-	for (unsigned int i = 0; i < size; i++) {
+	for (uint32_t i = 0; i < size; i++) {
 		result |= tempa[i] ^ tempb[i];
 	}
 	return result;

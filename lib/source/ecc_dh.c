@@ -61,7 +61,7 @@
 #include <string.h>
 
 int uECC_make_key_with_d(uint_least8_t *public_key, uint_least8_t *private_key,
-			 unsigned int *d, uECC_Curve curve)
+			 uint32_t *d, uECC_Curve curve)
 {
 
 	uECC_word_t _private[NUM_ECC_WORDS];

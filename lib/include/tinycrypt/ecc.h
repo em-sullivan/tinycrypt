@@ -91,7 +91,7 @@ typedef int16_t bitcount_t;
 /* defining data type for comparison result: */
 typedef int_least8_t cmpresult_t;
 /* defining data type to store ECC coordinate/point in 32bits words: */
-typedef unsigned int uECC_word_t;
+typedef uint32_t uECC_word_t;
 /* defining data type to store an ECC coordinate/point in 64bits words: */
 typedef uint64_t uECC_dword_t;
 
@@ -148,7 +148,7 @@ void x_side_default(uECC_word_t *result, const uECC_word_t *x,
  * @param result OUT -- product % curve_p
  * @param product IN -- value to be reduced mod curve_p
  */
-void vli_mmod_fast_secp256r1(unsigned int *result, unsigned int *product);
+void vli_mmod_fast_secp256r1(uint32_t *result, uint32_t *product);
 
 /* Bytes to words ordering: */
 #define BYTES_TO_WORDS_8(a, b, c, d, e, f, g, h) 0x##d##c##b##a, 0x##h##g##f##e
@@ -222,7 +222,7 @@ int uECC_generate_random_int(uECC_word_t *random, const uECC_word_t *top,
  * POSIX-compliant system that supports /dev/random or /dev/urandom, you can
  * define uECC_POSIX to use the predefined RNG.
  */
-typedef int(*uECC_RNG_Function)(uint_least8_t *dest, unsigned int size);
+typedef int(*uECC_RNG_Function)(uint_least8_t *dest, uint32_t size);
 
 /*
  * @brief Set the function that will be used to generate random bytes. The RNG
@@ -527,7 +527,7 @@ int uECC_valid_public_key(const uint_least8_t *public_key, uECC_Curve curve);
   * @param native IN -- uECC native representation
   */
 void uECC_vli_nativeToBytes(uint_least8_t *bytes, int num_bytes,
-    			    const unsigned int *native);
+    			    const uint32_t *native);
 
 /*
  * @brief Converts big-endian bytes to an integer in uECC native format.
@@ -535,7 +535,7 @@ void uECC_vli_nativeToBytes(uint_least8_t *bytes, int num_bytes,
  * @param bytes IN -- bytes representation
  * @param num_bytes IN -- number of bytes
  */
-void uECC_vli_bytesToNative(unsigned int *native, const uint_least8_t *bytes,
+void uECC_vli_bytesToNative(uint32_t *native, const uint_least8_t *bytes,
 			    int num_bytes);
 
 #ifdef __cplusplus

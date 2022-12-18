@@ -102,7 +102,7 @@ int uECC_make_key(uint_least8_t *p_public_key, uint_least8_t *p_private_key, uEC
  * uECC_make_key() function for real applications.
  */
 int uECC_make_key_with_d(uint_least8_t *p_public_key, uint_least8_t *p_private_key,
-    			 unsigned int *d, uECC_Curve curve);
+    			 uint32_t *d, uECC_Curve curve);
 #endif
 
 /**

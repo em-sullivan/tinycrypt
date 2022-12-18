@@ -58,8 +58,8 @@ extern "C" {
  * @param from IN -- origin buffer
  * @param from_len IN -- length of origin buffer
  */
-unsigned int _copy(uint_least8_t *to, unsigned int to_len,
-	           const uint_least8_t *from, unsigned int from_len);
+uint32_t _copy(uint_least8_t *to, uint32_t to_len,
+	           const uint_least8_t *from, uint32_t from_len);
 
 /**
  * @brief Set the value 'val' into the buffer 'to', 'len' times.
@@ -68,7 +68,7 @@ unsigned int _copy(uint_least8_t *to, unsigned int to_len,
  * @param val IN -- value to be set in 'to'
  * @param len IN -- number of times the value will be copied
  */
-void _set(void *to, uint_least8_t val, unsigned int len);
+void _set(void *to, uint_least8_t val, uint32_t len);
 
 /**
  * @brief Set the value 'val' into the buffer 'to', 'len' times, in a way
@@ -84,9 +84,9 @@ void _set(void *to, uint_least8_t val, unsigned int len);
  * @param len IN -- number of times the value will be copied
  */
 #ifdef TINYCRYPT_ARCH_HAS_SET_SECURE
-extern void _set_secure(void *to, uint_least8_t val, unsigned int len);
+extern void _set_secure(void *to, uint_least8_t val, uint32_t len);
 #else /* ! TINYCRYPT_ARCH_HAS_SET_SECURE */
-static inline void _set_secure(void *to, uint_least8_t val, unsigned int len)
+static inline void _set_secure(void *to, uint_least8_t val, uint32_t len)
 {
   (void) memset(to, val, len);
 #ifdef __GNUC__

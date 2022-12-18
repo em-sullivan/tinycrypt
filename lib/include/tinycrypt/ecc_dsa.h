@@ -103,7 +103,7 @@ extern "C" {
  * attack.
  */
 int uECC_sign(const uint_least8_t *p_private_key, const uint_least8_t *p_message_hash,
-	      unsigned p_hash_size, uint_least8_t *p_signature, uECC_Curve curve);
+	      uint32_t p_hash_size, uint_least8_t *p_signature, uECC_Curve curve);
 
 #ifdef ENABLE_TESTS
 /*
@@ -111,7 +111,7 @@ int uECC_sign(const uint_least8_t *p_private_key, const uint_least8_t *p_message
  * Refer to uECC_sign() function for real applications.
  */
 int uECC_sign_with_k(const uint_least8_t *private_key, const uint_least8_t *message_hash,
-		     unsigned int hash_size, uECC_word_t *k, uint_least8_t *signature,
+		     uint32_t hash_size, uECC_word_t *k, uint_least8_t *signature,
 		     uECC_Curve curve);
 #endif
 
@@ -130,7 +130,7 @@ int uECC_sign_with_k(const uint_least8_t *private_key, const uint_least8_t *mess
  * the signature values (hash_size and signature).
  */
 int uECC_verify(const uint_least8_t *p_public_key, const uint_least8_t *p_message_hash,
-		unsigned int p_hash_size, const uint_least8_t *p_signature, uECC_Curve curve);
+		uint32_t p_hash_size, const uint_least8_t *p_signature, uECC_Curve curve);
 
 #ifdef __cplusplus
 }

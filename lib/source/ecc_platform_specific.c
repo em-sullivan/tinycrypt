@@ -71,7 +71,7 @@
 #define O_CLOEXEC 0
 #endif
 
-int default_CSPRNG(uint_least8_t *dest, unsigned int size) {
+int default_CSPRNG(uint_least8_t *dest, uint32_t size) {
 
   /* input sanity check: */
   if (dest == (uint_least8_t *) 0 || (size <= 0))

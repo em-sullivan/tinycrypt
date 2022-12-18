@@ -90,7 +90,7 @@ typedef struct tc_hmac_state_struct *TCHmacState_t;
  * @param key_size IN -- the HMAC key size
  */
 int tc_hmac_set_key(TCHmacState_t ctx, const uint_least8_t *key,
-		    unsigned int key_size);
+		    uint32_t key_size);
 
 /**
  * @brief HMAC init procedure
@@ -112,7 +112,7 @@ int tc_hmac_init(TCHmacState_t ctx);
  *  @param data_length IN -- size of data in bytes
  */
 int tc_hmac_update(TCHmacState_t ctx, const void *data,
-		   unsigned int data_length);
+		   uint32_t data_length);
 
 /**
  *  @brief HMAC final procedure
@@ -130,7 +130,7 @@ int tc_hmac_update(TCHmacState_t ctx, const void *data,
  *  @param taglen IN -- size of tag in bytes
  *  @param ctx IN/OUT -- the HMAC state for computing tag
  */
-int tc_hmac_final(uint_least8_t *tag, unsigned int taglen, TCHmacState_t ctx);
+int tc_hmac_final(uint_least8_t *tag, uint32_t taglen, TCHmacState_t ctx);
 
 #ifdef __cplusplus
 }

@@ -181,7 +181,7 @@ uECC_word_t uECC_vli_equal(const uECC_word_t *left, const uECC_word_t *right,
 	return !(diff == 0);
 }
 
-uECC_word_t cond_set(uECC_word_t p_true, uECC_word_t p_false, unsigned int cond)
+uECC_word_t cond_set(uECC_word_t p_true, uECC_word_t p_false, uint32_t cond)
 {
 	return (p_true*(cond)) | (p_false*(!cond));
 }
@@ -518,9 +518,9 @@ uECC_Curve uECC_secp256r1(void)
 	return &curve_secp256r1;
 }
 
-void vli_mmod_fast_secp256r1(unsigned int *result, unsigned int*product)
+void vli_mmod_fast_secp256r1(uint32_t *result, uint32_t*product)
 {
-	unsigned int tmp[NUM_ECC_WORDS];
+	uint32_t tmp[NUM_ECC_WORDS];
 	int carry;
 
 	/* t */
@@ -812,7 +812,7 @@ uECC_word_t EccPoint_compute_public_key(uECC_word_t *result,
 
 /* Converts an integer in uECC native format to big-endian bytes. */
 void uECC_vli_nativeToBytes(uint_least8_t *bytes, int num_bytes,
-			    const unsigned int *native)
+			    const uint32_t *native)
 {
 	wordcount_t i;
 	for (i = 0; i < num_bytes; ++i) {
@@ -822,7 +822,7 @@ void uECC_vli_nativeToBytes(uint_least8_t *bytes, int num_bytes,
 }
 
 /* Converts big-endian bytes to an integer in uECC native format. */
-void uECC_vli_bytesToNative(unsigned int *native, const uint_least8_t *bytes,
+void uECC_vli_bytesToNative(uint32_t *native, const uint_least8_t *bytes,
 			    int num_bytes)
 {
 	wordcount_t i;

@@ -34,11 +34,11 @@
 #include <tinycrypt/constants.h>
 #include <tinycrypt/utils.h>
 
-static void rekey(uint_least8_t *key, const uint_least8_t *new_key, unsigned int key_size)
+static void rekey(uint_least8_t *key, const uint_least8_t *new_key, uint32_t key_size)
 {
 	const uint_least8_t inner_pad = (uint_least8_t) 0x36;
 	const uint_least8_t outer_pad = (uint_least8_t) 0x5c;
-	unsigned int i;
+	uint32_t i;
 
 	for (i = 0; i < key_size; ++i) {
 		key[i] = inner_pad ^ new_key[i];
@@ -50,7 +50,7 @@ static void rekey(uint_least8_t *key, const uint_least8_t *new_key, unsigned int
 }
 
 int tc_hmac_set_key(TCHmacState_t ctx, const uint_least8_t *key,
-		    unsigned int key_size)
+		    uint32_t key_size)
 {
 	/* Input sanity check */
 	if (ctx == (TCHmacState_t) 0 ||
@@ -108,7 +108,7 @@ int tc_hmac_init(TCHmacState_t ctx)
 
 int tc_hmac_update(TCHmacState_t ctx,
 		   const void *data,
-		   unsigned int data_length)
+		   uint32_t data_length)
 {
 
 	/* input sanity check: */
@@ -121,7 +121,7 @@ int tc_hmac_update(TCHmacState_t ctx,
 	return TC_CRYPTO_SUCCESS;
 }
 
-int tc_hmac_final(uint_least8_t *tag, unsigned int taglen, TCHmacState_t ctx)
+int tc_hmac_final(uint_least8_t *tag, uint32_t taglen, TCHmacState_t ctx)
 {
 
 	/* input sanity check: */

@@ -89,7 +89,7 @@ static inline void inv_mix_columns(uint_least8_t *s)
 	(void)_copy(s, sizeof(t), t, sizeof(t));
 }
 
-static inline void add_round_key(uint_least8_t *s, const unsigned int *k)
+static inline void add_round_key(uint_least8_t *s, const uint32_t *k)
 {
 	s[0] ^= (uint_least8_t)(k[0] >> 24); s[1] ^= (uint_least8_t)(k[0] >> 16);
 	s[2] ^= (uint_least8_t)(k[0] >> 8); s[3] ^= (uint_least8_t)(k[0]);
@@ -103,7 +103,7 @@ static inline void add_round_key(uint_least8_t *s, const unsigned int *k)
 
 static inline void inv_sub_bytes(uint_least8_t *s)
 {
-	unsigned int i;
+	uint32_t i;
 
 	for (i = 0; i < (Nb*Nk); ++i) {
 		s[i] = inv_sbox[s[i]];
@@ -129,7 +129,7 @@ static inline void inv_shift_rows(uint_least8_t *s)
 int tc_aes_decrypt(uint_least8_t *out, const uint_least8_t *in, const TCAesKeySched_t s)
 {
 	uint_least8_t state[Nk*Nb];
-	unsigned int i;
+	uint32_t i;
 
 	if (out == (uint_least8_t *) 0) {
 		return TC_CRYPTO_FAIL;
